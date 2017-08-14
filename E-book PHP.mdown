@@ -124,7 +124,7 @@ Vamos ver agora as principais tags do PHP:
 * __if e else__: assim como na maior parte das linguagens de programação, essas tags servem para validar condições do tipo "se isso for verdadeiro, faça isto, senão faça aquilo".
 * __Comentários__: Para fazer comentários, deve-se iniciar com */ e terminar com */. Podem ser usados também duas barras (//) e hashtag (#).
 
-![PHP](img/comandosBasicos.png "Comandos Básicos")
+![PHP](img/comandosbasicos.png "Comandos Básicos")
 Figura 4 - Comandos Básicos em PHP
 
 #### Laços de Repetição
@@ -137,7 +137,7 @@ Figura 4 - Comandos Básicos em PHP
 
 #### Funções
 
-* __return()__: Termina qualquer função que esteja acontecendo no momento e dá como argumento de retorno como valor da função.
+* __return()__: Termina qualquer função que esteja acontecendo no momento e dá como argumento de retorno o valor da função.
 * __function()__: É um bloco de código declarado e que pode ser chamado sempre que necessário.
 * __include()__: Inclui uma outra página PHP no documento. Pode ser usado, por exemplo, para validar os dados em uma página de login, conforme veremos neste caso.
 * __require()__: Atua assim como o include, mas nesse caso a página só funciona se conseguir rodar a outra página, se não ela aborta a ação.
@@ -145,12 +145,12 @@ Figura 4 - Comandos Básicos em PHP
 
 #### Variáveis Superglobais
 
-* __$GLOBALS__: um _array_ que engloba todas as referências feitas dentro do script, você entenderá como isso funciona mais para frente.
-* __$_GET__: Captura valores enviados via URL.
-* __$_POST__: Cria uma conexão paralela onde são enviados os dados, como senha e usuário. Os dados não são visíveis ao usuário.
+* __$GLOBALS__: um _array_ que engloba todas as referências feitas dentro do script, como login, nome do usuário e outras informações. você entenderá como isso funciona mais para frente.
+* __$_GET__: Captura valores enviados via URL, como o ID de um produto clicado para compra.
+* __$_POST__: Cria uma conexão paralela onde são enviados os dados, como senha e usuário. Os dados enviados não são visíveis ao usuário.
 * __$_SERVER__: é um array que carrega informações como cabeçalhos e *paths* das páginas em questão.
 * __$_REQUEST__: por padrão, ele é quem carrega os dados que estarão em $_GET e $_POST.
-* __$_SESSION__: Armazena os dados que estão naquele presente sessão. Ou seja, fechando o navegador estes dados são perdidos.
+* __$_SESSION__: Armazena os dados que estão naquela presente sessão. Ou seja, fechando o navegador estes dados são perdidos.
 
 #### Outros termos importantes
 
@@ -159,7 +159,7 @@ Figura 4 - Comandos Básicos em PHP
 * __intval__: retorna o valor inteiro de uma variável;
 * __header__: retorna o cabeçalho no script.
 
-Agora que você já conhece as _tags_ mais utilizadas, que tal ver como cada uma delas é usada no código? Bora botar a mão na massa!
+Agora que você já conhece as _tags_ e palavras reservadas mais utilizadas, que tal ver como cada uma delas é usada no código? Bora botar a mão na massa!
 
 ## Desenvolvimento PHP
 
@@ -198,11 +198,11 @@ A primeira coisa que faremos é criar, em HTML, um formulário para que o usuár
 </html>
 ```
 
-O código acima é apenas um formulário em HTML, mas podemos perceber nele a primeira coisa que usa PHP. Como você pode ver na chamada do form, existem dois elementos muito importantes para o PHP, que são o _method_ e _action_, e vamos te explicar porque.
+O código acima é apenas um formulário em HTML, mas podemos perceber nele a primeira coisa que usa PHP. Como você pode ver na chamada do _form_, existem dois elementos muito importantes para o PHP, que são o _method_ e _action_, e vamos te explicar porque.
 
-O método especifica qual o tipo de uso será feito para o form. Quando dizemos que o método será post, isso significa que ele vai fazer uma requisição do tipo post no PHP, enviando aqueles dados quando o botão _submit_ for pressionado. Mas para onde ele irá enviar?
+O método especifica qual o tipo de uso será feito para o _form_. Quando dizemos que o método será post, isso significa que ele vai fazer uma requisição do tipo post no PHP, enviando aqueles dados quando o botão _submit_ for pressionado. Mas para onde ele irá enviar?
 
-Para isso existe o comando _action_. É ele quem define para onde os dados via POST serão enviados. Viu que a extensão do caminho é .php? Isso significa que os dados enviados via POST serão validados naquela página. Vamos ver como o código dela será?
+Para isso existe uma _action_ especificada. É ela quem define para onde os dados via POST serão enviados. Viu que a extensão do caminho é .php? Isso significa que os dados enviados via POST serão validados naquela página. Vamos ver como o código dela será?
 
 ### Tratamento dos dados
 
@@ -241,9 +241,9 @@ if(isset($_POST["nome"]) || isset($_POST["email"]) || isset($_POST["senha"])){
 
         }
 ```
-Como vimos anteriormente, para saber se o atributo existe ou não usamos o recurso _isset_. Com ele sabemos se aquela variável foi criada ou não. No exemplo acima, se alguma das variáveis não existir (usuário ou email ou senha), o sistema entrará no else.
+Como vimos anteriormente, para saber se o atributo existe ou não usamos o recurso _isset_. Com ele sabemos se aquela variável foi criada ou não. No exemplo acima, se alguma das variáveis não existir (usuário ou email ou senha), o sistema entrará no _else_.
 
-Mas o que ele fará se entrar no if ou no else? É o que veremos agora!
+Mas o que ele fará se entrar no _if_ ou no _else_? É o que veremos agora!
 
 ### Se os campos existirem...
 
@@ -274,13 +274,13 @@ if(isset($_POST["nome"]) || isset($_POST["email"]) || isset($_POST["senha"])){
 
 Na forma retratada acima é que iremos salvar esses dados no banco. Você necessita criar uma variável que conterá o SQL a ser enviado para o BD, informando os campos da tabela onde serão salvos os dados e quais são as variáveis respectivas.
 
-Para enviar isso para o banco, criamos uma nova variável chama "$resultado", que será a responsável por enviar os dados enviar a query do banco ou fechar a conexão (mysqli_error()).
+Para enviar isso para o banco, criamos uma nova variável chama "$resultado", que será a responsável por enviar a query do banco ou fechar a conexão (_mysqli_error()_).
 
 O comando para isso chama _mysqli_query_. Você viu que junto da query do SQL, ele tem um outro atributo, chamado $conectar? Nós vamos falar um pouco mais dele quando citarmos a conexão ao banco de dados, aguarde! 
 
 ### Se os campos não existirem...
 
-Nesse caso iremos cair no else, que deverá ter alguma ação. Para isso iremos  gerar uma mensagem via JavaScript mostrando o erro e iremos encaminhar o usuário novamente para a página de cadastro.
+Nesse caso iremos cair no _else_, que deverá ter alguma ação. Para isso iremos  gerar uma mensagem via JavaScript mostrando o erro e iremos encaminhar o usuário novamente para a página de cadastro.
 
 ```php
 <?php
@@ -300,7 +300,7 @@ if(isset($_POST["nome"]) || isset($_POST["email"]) || isset($_POST["senha"])){
 
         else{
 
-            echo "<script>alert('Houve erros na hora de salvar os dados')</script>";
+            echo "<script>alert('Você não preencheu todos os campos. Refaça o procedimento.')</script>";
             echo "<script type='text/javascript'>  window.location='signup.php'; </script>";
 
         }
@@ -312,12 +312,12 @@ O segundo _echo_ também é um comando em JS, que muda a página do usuário. Es
 
 ### Acesso ao banco de dados
 
-Para acessar o banco de dados, vamos criar um novo arquivo, vamos usar a seguinte sintaxe:
+Para acessar o banco de dados, vamos criar um novo arquivo, utilizando a seguinte sintaxe:
 
 ```php
 <?php
 
-$conectar = mysqli_connect("localhost","root","") or die ("Erro na conexão");
+$conectar = mysqli_connect("127.0.0.1","root","") or die ("Erro na conexão");
 mysqli_select_db($conectar, "becodeLoginBD") or die ("Base não encontrada");
 
 ?>
@@ -325,7 +325,7 @@ mysqli_select_db($conectar, "becodeLoginBD") or die ("Base não encontrada");
 
 Agora vamos entender o porque de cada linha.
 
-A variável $conectar armazena o acesso ao banco. Localhost é o endereço do banco de dados (poderia ser um IP), enquanto "root" é o usuário de acesso ao banco e as aspas que sobram guardam a senha do site. do banco. Caso haja um erro (die), aparecerá a mensagem "Erro na Conexão" na página.
+A variável $conectar armazena o acesso ao banco. Aquele IP é o endereço do banco de dados (conhecido também como localhost), enquanto "root" é o usuário de acesso ao banco e as aspas que sobram guardam a senha de acesso ao banco. Caso haja um erro (_die_), aparecerá a mensagem "Erro na Conexão" na página.
 
 A segunda linha pega a variável que contém o acesso ao banco e, através do comando _mysqli_select_db_, envia uma solicitação ao banco de dados. Para saber qual base de dados será usada, especificamos como segundo parâmetro o nome da base, que nesse caso é "becodeLoginBD".
 
@@ -362,7 +362,7 @@ if(isset($_POST["nome"]) || isset($_POST["email"]) || isset($_POST["senha"])){
 
 Depois de tudo isso, o que vai acontecer com o usuário? Se os dados forem salvos, pra onde ele será encaminhado?
 
-Quando os dados forem aceitos no banco de dados, o fluxo é que ele seja levado para a página de login. Para isso vamos usar o seguinte script de JS:
+Quando os dados forem aceitos no banco de dados, o fluxo é que ele seja levado para a página de login. Para isso vamos usar o seguinte script de JS, que será colocado dentro do _if_:
 
 ```php
 echo "<script>alert('Dados salvos com sucesso!')</script>";
@@ -396,15 +396,13 @@ Agora que você já viu como salvar dados no banco e encaminhar para páginas es
 * Se esses dados forem encontrados, mostrar uma página de bem-vindo
 * Se o usuário não estiver no banco, informar isso na tela
 
-Vamos colocar a mão na massa?
+Bora codificar isso?
 
 ### Criando um formulário de login
 
 Nosso formulário de login será feito da seguinte forma:
 
 ```html
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -417,7 +415,7 @@ Nosso formulário de login será feito da seguinte forma:
         <form method="POST" action="valida_login.php">
             <h2>Área de Login</h2>
             <label for="inputEmail">Endereço de e-mail</label>
-            <input type="email" id="inputEmail" name="usuario" placeholder="Endereço de email"><br>
+            <input type="email" id="inputEmail" name="nome" placeholder="Endereço de email"><br>
             
             <label for="inputPassword" >Palavra-passe</label>
             <input type="password" name="senha" id="inputPassword" placeholder="Palavra-passe" required><br><br>
@@ -436,7 +434,7 @@ Nosso formulário de login será feito da seguinte forma:
 
 ```
 
-Assim como no caso da criação de conta do usuário, iremos usar a _action_ valida_login.php para saber se nosso usuário está no banco de dados. Para isso esse arquivo deve conter o seguinte código:
+Assim como no caso da criação de conta do usuário, iremos usar a _action_ valida_login.php para saber se nosso usuário está no banco de dados. Para isso o arquivo valida_login.php deve conter o seguinte código:
 
 ```php
 <?php
@@ -456,11 +454,11 @@ $result = mysqli_query($conectar, $sql);
 
 Bora entender esse código linha a linha:
 
-Aquele _session_start()_ é um recurso que colocaremos em todas as páginas PHP. Ele será o responsável por avisar ao sistema que a sessão do usuário estará operante. É dentro da sessão que levaremos a senha, login e outras informações vinculadas àquele usuário, entendeu?
+Aquele _session_start()_ é um recurso que colocaremos em todas as páginas PHP. Ele será o responsável por avisar ao sistema que a sessão do usuário está operante. É dentro da sessão que levaremos a senha, login e outras informações vinculadas àquele usuário.
 
 Nas linhas seguintes, recebemos a senha e email do usuário e armazenamos em uma variável local para cada. Fazemos isso para poder manipular localmente as variáveis recebidas.
 
-Essas variáveis são usadas no momento em que passamos o comando SQL para procurar o login no banco de dados. Observe que fizemos a procura de uma forma diferente, declarando os comandos SQL em uma variável, e apenas chamando ela no _$result_. Fizemos apenas para mostrar uma forma diferente de fazer a mesma pesquisa, além de ser melhor na hora de fazer alterações nas queries.
+Essas variáveis são usadas no momento em que passamos o comando SQL para procurar o login no banco de dados. Observe que fizemos a procura de uma forma diferente, declarando os comandos SQL em uma variável, chamando ela no _$result_. Fizemos apenas para mostrar uma forma diferente de fazer a mesma pesquisa, além de ser melhor na hora de fazer alterações nas queries.
 
 Em último lugar, fizemos a conexão ao banco sem chamar o aquivo _conexao.php_. Isso mostra que é possível fazer localmente o acesso ao banco, o que pode ser interessante caso você tenha um banco ou tabela apenas para logins. Mas é recomendado evitar essa prática, para deixar o código melhor isolado, com cada função no seu lugar.
 
@@ -512,6 +510,8 @@ Quando você faz uma pesquisa no banco de dados usando _mysqli_query_ você rece
 
 Com ele, você passa como parâmetro o que veio do banco, e dessa forma é possível acessar todos os campos recebidos. No exemplo acima nós salvamos o email encontrado no banco em uma varíavel da sessão ($_SESSION). Sendo assim, sempre que chamarmos a variável $_SESSION['email'] no sistema nós teremos o email da pessoa logada naquele momento. 
 
+A vantagem de salvar na sessão é que isso pode ser usado em qualquer página daquela sessão de usuário.
+
 Quer ver um exemplo? Vamos ver na página _home.php_:
 
 ```php
@@ -544,7 +544,7 @@ Figura 11 - Resultado após login com sucesso
 
 ## Cadê o CSS e JavaScript?
 
-Como você percebeu, fizemos as páginas mas não incluímos nada nelas. Mas isso tem um motivo: queremos ver você sendo o protagonista e criando esse conteúdo! Para isso temos algumas dicas que podem ser úteis.
+Como você percebeu, fizemos as páginas mas não incluímos nada de CSS e JavaScript puro. Mas isso tem um motivo: queremos ver você sendo o protagonista e criando esse conteúdo! Para isso temos algumas dicas que podem ser úteis.
 
 O primeiro é que pesquise pelo Bootstrap. Ele é um framework que permite criar belos sites, padronizados para computadores e telas menores. Pra isso ele utiliza uma biblioteca própria de comandos em JavaScript e CSS, bastante você chamar as classes corretas para dar cor e ritmo ao seu site.
 
