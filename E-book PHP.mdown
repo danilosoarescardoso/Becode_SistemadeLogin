@@ -1,0 +1,557 @@
+
+# E-BOOK Criando um sistema de Login em PHP
+
+## Objetivo
+
+Seja bem-vido a mais um e-book da Becode! O intuito deste arquivo é claro: fazer você dar os seus primeiros passos na linguagem PHP. Aqui você entenderá a origem desta linguagem, para que ela se destina, e como utiliza-la de uma forma que tire o máximo proveito possível.
+
+Mesmo que você não seja a pessoa do back-end, recomenda-se que a conheça, já que é uma das mais utilizadas a anos, além de nunca ser demais aprender algo, né? Quem sabe sua carreira de sucesso não está aqui.
+
+Vamos ver o que essa linguagem te reserva?
+
+## Dica de Leitura
+
+Este ebook pode ser acessado de qualquer dispositivo. Contudo, o seu aprendizado será muito mais completo se você seguir os passos desse tutorial em um desktop ou notebook, pois você precisará interagir com os códigos HTML, CSS, JavaScript e PHP. Sim, para aprender, você precisa praticar!
+
+Sempre que você realizar uma alteração no código, salve o documento .html ou .php e atualize o seu navegador. Assim, você conseguirá identificar, em tempo real, todas as modificações que você estará fazendo em sua página.
+
+Para lembrá-lo, sempre que o ícone ao lado aparecer nesse Ebook, repita esse processo (salvar doc + atualizar browser).
+
+## O que você irá construir
+
+Para este ebook iremos criar um sistema de login. Esse sistema irá solicitar email nome e uma senha para o usuário, para que ele seja cadastrado. Após o cadastro, será possível fazer o login. Para ser algo seguro, o sistema avisará se a pessoa não estiver cadastrada no site, e dessa forma você aprenderá como fazer uma busca no banco e negar um acesso.
+
+
+## Arquitetura Básica Cliente/Servidor
+
+Antes de iniciar a criação das páginas, é importante que você saiba o básico sobre como a arquitetura da internet funciona. Vamos lá!
+
+Sempre que você digita “https://becode.com.br” em seu navegador web (Chrome, Firefox, Safari, etc), você solicita ao servidor da Becode que ele exiba a página index do website. O servidor irá processar essa requisição, entregando inúmeros arquivos ao navegador, que são o que compõe o que aparecerá na tela. Nestes arquivos se encontram os documentos HTML, PHP, CSS e JavaScript, material que costuma compor a grande maioria dos sites.
+
+### Onde entra o PHP
+
+Os arquivos HTML, CSS e JavaScript compõe o que chamamos de front-end, ou seja, aquilo que seu usuário enxergará ao acessar o site. No momento em que seu usuário solicita algo no site (faz uma pesquisa, faz login, altera algum status), isso será processado pelo back-end da página.
+
+A linguagem de back-end é quem acessará o banco de dados, encontrará o que o usuário solicitou, e mostrará na tela, sendo este resultado o que a pessoa procura ou um erro. Para todos esses casos é possível criar respostas, sempre utilizando a linguagem de back-end.
+
+É importante lembrar que para o PHP funcionar, é necessário um servidor web. Diferentemente de uma simples página HTML, que você faz as interações no seu próprio computador, é necessário um servidor web para que as requisições possam ser processadas.
+
+Isso pode ser feito no seu computador mesmo. Para isso é necessário instalar um servidor web em sua máquina. O processo é rápido e simples. Indicamos o XAMPP e WAMP (apenas para Windows). Ambos são 'pacotes prontos', ou seja, uma suíte de aplicações para desenvolvimento web.
+
+Essas ferramentas fornecem o necessário para desenvolver em PHP. Ambas possuem um servidor HTTP (Apache), um banco de dados (MySQL) e o PHP (linguagem dinâmica que rodará junto ao servidor HTTP por apache2handler ou fastcgi). 
+
+## Sua primeira página web com back-end
+
+Para fazer esse tutorial é necessário que você já domine a utilização do HTML, CSS e JavaScript. Se você não sabe como essas tecnologias funcionam, recomendamos enfaticamente que você acesse [este e-book](http://materiais.becode.com.br/ebook-guia-html-e-css-lp) e veja como essas ferramentas são e o que elas fazem.
+
+Uma vez que você as domine, será possível criar um site com essas tecnologias no front-end e com o PHP no backend. Mesmo assim, vamos relembrar um pouco do que essas linguagens são, caso você precise refrescar a memória.
+
+De uma forma breve e resumida:
+
+* __HTML__: uma linguagem de marcação, onde são definidas as estruturas de uma página web. É através dessas marcações que você mostrará os elementos provenientes do servidor web, como textos, tabelas e imagens.
+
+* __CSS__: tecnologia que estiliza uma página web, definido cores, tamanho das letras, alinhamento e espaçamento, imagens e efeitos, ou seja, tudo o que compõe o visual da página;
+
+* __JavaScript__: Por fim, o JavaScript (JS), linguagem de programação que define como sua página web deve se comportar a cada requisição. Essa linguagem concede controle sobre sua página web, permitindo alertas, mover elementos e outros comportamentos.
+ 
+Entendendo essas diferenças, é possível criar uma página web e utilizar o PHP como forma de atender às requisições do seu usuário. 
+
+Como o PHP é uma linguagem de programação, é imprescindível que você domine os conceitos básicos de Lógica de Programação, que podem ser obtidos [clicando aqui](https://becode.com.br/curso/logica-de-programacao/).
+
+## Como desenvolver a estrutura da página PHP
+
+A primeira coisa que vamos precisar é de um editor de texto. Indicamos o [Sublime Text](https://www.sublimetext.com), que é gratuito e tem uma série de ferramentas que auxiliam na criação dos códigos.
+
+Os arquivos que envolvem o PHP precisam ser salvos com a extensão .php. Apesar disso, a página pode conter códigos HTML normalmente. Isso acontece porque o HTML é uma linguagem interpretada, ou seja, quando o servidor encontra uma página .php ele sabe interpretar o HTML e ler os códigos PHP, conforme veremos a seguir.
+
+Antes de começar, é necessário colocar o servidor no ar. No nosso caso utilizaremos o XAMPP. Após ter ele instalado, basta clicar em _Start_ e aguardar que as conexões serão feitas.
+
+![XAMPP](img/xampp.png "Tela inicial do XAMPP")
+Figura 1 - Tela do XAMPP em ambientes OS X
+
+## Primeiros passos com PHP
+
+Após ter instalado o editor de textos de sua preferência, procure a pasta _htdocs_ dentro do servidor que você instalou. No caso do XAMPP, ela está salva na pasta das aplicações, conforme o print abaixo.
+
+![htdocs](img/xampp2.png "Pasta htdocs")
+Figura 2 - Localização da pasta htdocs
+
+Encontrando esse local, crie uma pasta com o nome do seu projeto, que no nosso caso será SistemaLogin, e crie dentro dela as seguintes pastas: 
+
+* css
+* js
+* login
+
+Vamos explicar o motivo destas pastas. A CSS e JS serão os locais para os arquivos de estilo e controle da página, respectivamente e a pasta de login é onde guardaremos as páginas referentes ao login.
+
+### Estrutura básica do PHP
+
+Uma das grandes vantagens do código PHP é que ele pode atuar em conjunto com o HTML, de forma que ambos sejam entendidos pelo servidor. quer ver um exemplo?
+
+Na código abaixo é possível entender o que será entendido pelo servidor como uma solicitação HTML e como uma solicitação PHP.
+
+```php
+//tag HTML
+<p>Isto vai ser ignorado pelo PHP em enviado ao navegador.</p>
+
+//tag PHP
+<?php echo 'Enquanto isto vai ser interpretado.'; ?>
+
+//tag HTML
+<p>Isto também vai ser ignorado pelo PHP em enviado ao navegador.</p>
+```
+
+![PHP](img/primeiroCodigo.png "Código PHP")
+Figura 3 - Primeiro código HTML com PHP
+
+Tudo o que estiver fora das tags PHP é ignorado pelo servidor, o que permite que arquivos PHP tenham um conteúdo diversificado (HTML e PHP). Vamos agora ver um pouco mais do que é o PHP.
+
+### Principais Elementos PHP
+
+Quando você roda um arquivo PHP, o servidor procura tags que iniciem com "< ? php" e sejam fechadas com "? >", como podemos ver neste exemplo:
+
+```php
+<?php echo 'Hello World.'; ?>
+```
+
+São essas tags que dizem ao PHP para iniciar ou parar a interpretação do código entre elas. A interpretação dessa maneira permite o PHP ser incluído em vários tipos de documentos, pois tudo que está fora dessas tags é ignorado pelo interpretador do PHP.
+
+Vamos ver agora as principais tags do PHP:
+
+#### Comandos Básicos
+
+* __Echo__: Como você já percebeu nos elementos acima, o _echo_ é o elemento que imprime resultados na tela do usuário. Esse comando pode exibir uma ou mais strings.
+* __if e else__: assim como na maior parte das linguagens de programação, essas tags servem para validar condições do tipo "se isso for verdadeiro, faça isto, senão faça aquilo".
+* __Comentários__: Para fazer comentários, deve-se iniciar com */ e terminar com */. Podem ser usados também duas barras (//) e hashtag (#).
+
+![PHP](img/comandosBasicos.png "Comandos Básicos")
+Figura 4 - Comandos Básicos em PHP
+
+#### Laços de Repetição
+
+* __Switch__: Serve para selecionar opções dentro de uma lista. Por exemplo: você pode listar 3 opções de cursos, e especificar no PHP que se a opção X for selecionada, ele deve fazer um comando específico. É recomendado usar essa opção em casos onde a entrada é fixa, diferente do if, que é mais dinâmico.
+* __While e for__: Nesse laço, é especificado que enquanto algo for de determinado modo, seu código deve fazer uma determinada ação. Por exemplo. Enquanto "N > 0, N = N-1". Dessa forma o laço se repetirá enquanto o N não for zero, tirando um a cada vez que passar por esse laço.
+* __Do/While__: esse laço da mesma forma que o laço acima, com a diferença que acima você especifica antes o que ele deve fazer, colocando a condição apenas no final.
+* __Foreach__: Para cada caso de repetição, você especifica algo que deve ser feito dentro desta modalidade de laço.
+* __Break__: Esse comando é utilizado para interromper laços e outros comandos em geral.
+
+#### Funções
+
+* __return()__: Termina qualquer função que esteja acontecendo no momento e dá como argumento de retorno como valor da função.
+* __function()__: É um bloco de código declarado e que pode ser chamado sempre que necessário.
+* __include()__: Inclui uma outra página PHP no documento. Pode ser usado, por exemplo, para validar os dados em uma página de login, conforme veremos neste caso.
+* __require()__: Atua assim como o include, mas nesse caso a página só funciona se conseguir rodar a outra página, se não ela aborta a ação.
+* __include_once()__ ou __require_once__: Idênticas às funções simples acima, com a diferença de que a função retorna _false_ se a página já tiver sido incluída anteriormente.
+
+#### Variáveis Superglobais
+
+* __$GLOBALS__: um _array_ que engloba todas as referências feitas dentro do script, você entenderá como isso funciona mais para frente.
+* __$_GET__: Captura valores enviados via URL.
+* __$_POST__: Cria uma conexão paralela onde são enviados os dados, como senha e usuário. Os dados não são visíveis ao usuário.
+* __$_SERVER__: é um array que carrega informações como cabeçalhos e *paths* das páginas em questão.
+* __$_REQUEST__: por padrão, ele é quem carrega os dados que estarão em $_GET e $_POST.
+* __$_SESSION__: Armazena os dados que estão naquele presente sessão. Ou seja, fechando o navegador estes dados são perdidos.
+
+#### Outros termos importantes
+
+* __isset__: Informa se a variável existe;
+* __empty__: Determina se a variável está vazia;
+* __intval__: retorna o valor inteiro de uma variável;
+* __header__: retorna o cabeçalho no script.
+
+Agora que você já conhece as _tags_ mais utilizadas, que tal ver como cada uma delas é usada no código? Bora botar a mão na massa!
+
+## Desenvolvimento PHP
+
+### Formulário de Cadastro
+
+A primeira coisa que faremos é criar, em HTML, um formulário para que o usuário se cadastre em nosso site. Para isso vamos criar um arquivo chamado "signup.php" dentro da pasta "login". Vejamos como fica o código deste arquivo:
+
+```html
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tela de Cadastro</title>
+</head>
+<body>
+
+<h1>Tela de Cadastro</h1>
+
+<form method="post" action="cadastra_usuario.php">
+
+    <label for="nome">Nome</label>
+    <input type="text" name="nome" placeholder="Insira seu nome"><br>
+
+    <label for="email">Email</label>
+    <input type="text" name="email" placeholder="exemplo@exemplo.com"><br>  
+
+    <label for="senha">Senha</label>
+    <input type="password" name="senha" placeholder="******"><br>
+
+    <input type="submit" value="Enviar" name="submit">
+
+</form>
+
+</body>
+</html>
+```
+
+O código acima é apenas um formulário em HTML, mas podemos perceber nele a primeira coisa que usa PHP. Como você pode ver na chamada do form, existem dois elementos muito importantes para o PHP, que são o _method_ e _action_, e vamos te explicar porque.
+
+O método especifica qual o tipo de uso será feito para o form. Quando dizemos que o método será post, isso significa que ele vai fazer uma requisição do tipo post no PHP, enviando aqueles dados quando o botão _submit_ for pressionado. Mas para onde ele irá enviar?
+
+Para isso existe o comando _action_. É ele quem define para onde os dados via POST serão enviados. Viu que a extensão do caminho é .php? Isso significa que os dados enviados via POST serão validados naquela página. Vamos ver como o código dela será?
+
+### Tratamento dos dados
+
+Agora que seu usuário já criou uma conta para ele, está na hora de vermos como esses dados serão tratados. A primeira coisa que faremos é receber os dados que vierem através de POST e armazena-los em determinas variáveis.
+
+```php
+<?php
+
+$nome = $_POST["nome"];
+$email = $_POST["email"];
+$senha = $_POST["senha"];
+
+?>
+```
+
+Como você pode ver, criamos uma variável para cada campo que veio através do POST, utilizando como base o atributo "name". Isso significa que a variável saberá quem é quem através do "name" colocando em cada input.
+
+O segundo passo a se fazer na hora de utilizar esses dados é evitar que o usuário coloque campos em branco. Para isso podemos colocar uma validação nos campos ou utilizar o PHP. Para usar o PHP, o comando _isset_ será útil, vamos ver abaixo.
+
+```php
+<?php
+
+//prevenir erro quando é nulo
+if(isset($_POST["nome"]) || isset($_POST["email"]) || isset($_POST["senha"])){ 
+
+        $nome = $_POST["nome"];
+        $email = $_POST["email"];
+        $senha = $_POST["senha"];
+
+        ...
+    }
+
+        else{
+
+            ...
+
+        }
+```
+Como vimos anteriormente, para saber se o atributo existe ou não usamos o recurso _isset_. Com ele sabemos se aquela variável foi criada ou não. No exemplo acima, se alguma das variáveis não existir (usuário ou email ou senha), o sistema entrará no else.
+
+Mas o que ele fará se entrar no if ou no else? É o que veremos agora!
+
+### Se os campos existirem...
+
+Se os campos existirem, vamos salva-los no banco de dados previamente criado. Para isso usaremos a seguinte sintaxe:
+
+```php
+<?php
+
+//prevenir erro quando é nulo
+if(isset($_POST["nome"]) || isset($_POST["email"]) || isset($_POST["senha"])){ 
+
+        $nome = $_POST["nome"];
+        $email = $_POST["email"];
+        $senha = $_POST["senha"];
+
+        $query = "INSERT INTO usuarios (nome, email, senha) 
+            VALUES ('$nome', '$email', '$senha')";
+
+        $resultado = mysqli_query($conectar, $query) or die (mysqli_error());
+    }
+
+        else{
+
+            ...
+
+        }
+```
+
+Na forma retratada acima é que iremos salvar esses dados no banco. Você necessita criar uma variável que conterá o SQL a ser enviado para o BD, informando os campos da tabela onde serão salvos os dados e quais são as variáveis respectivas.
+
+Para enviar isso para o banco, criamos uma nova variável chama "$resultado", que será a responsável por enviar os dados enviar a query do banco ou fechar a conexão (mysqli_error()).
+
+O comando para isso chama _mysqli_query_. Você viu que junto da query do SQL, ele tem um outro atributo, chamado $conectar? Nós vamos falar um pouco mais dele quando citarmos a conexão ao banco de dados, aguarde! 
+
+### Se os campos não existirem...
+
+Nesse caso iremos cair no else, que deverá ter alguma ação. Para isso iremos  gerar uma mensagem via JavaScript mostrando o erro e iremos encaminhar o usuário novamente para a página de cadastro.
+
+```php
+<?php
+
+//prevenir erro quando é nulo
+if(isset($_POST["nome"]) || isset($_POST["email"]) || isset($_POST["senha"])){ 
+
+        $nome = $_POST["nome"];
+        $email = $_POST["email"];
+        $senha = $_POST["senha"];
+
+        $query = "INSERT INTO usuarios (nome, email, senha) 
+            VALUES ('$nome', '$email', '$senha')";
+
+        $resultado = mysqli_query($conectar, $query) or die (mysqli_error());
+    }
+
+        else{
+
+            echo "<script>alert('Houve erros na hora de salvar os dados')</script>";
+            echo "<script type='text/javascript'>  window.location='signup.php'; </script>";
+
+        }
+```
+
+O comando JavaScript _alert_ faz com que apareça uma janela na tela informando o erro. Usamos a tag _Script_ porque este código é em uma linguagem diferente, e no caso do JS é assim que fazemos inserções em HTML.
+
+O segundo _echo_ também é um comando em JS, que muda a página do usuário. Este comando leva-o de volta para a página de cadastro.
+
+### Acesso ao banco de dados
+
+Para acessar o banco de dados, vamos criar um novo arquivo, vamos usar a seguinte sintaxe:
+
+```php
+<?php
+
+$conectar = mysqli_connect("localhost","root","") or die ("Erro na conexão");
+mysqli_select_db($conectar, "becodeLoginBD") or die ("Base não encontrada");
+
+?>
+```
+
+Agora vamos entender o porque de cada linha.
+
+A variável $conectar armazena o acesso ao banco. Localhost é o endereço do banco de dados (poderia ser um IP), enquanto "root" é o usuário de acesso ao banco e as aspas que sobram guardam a senha do site. do banco. Caso haja um erro (die), aparecerá a mensagem "Erro na Conexão" na página.
+
+A segunda linha pega a variável que contém o acesso ao banco e, através do comando _mysqli_select_db_, envia uma solicitação ao banco de dados. Para saber qual base de dados será usada, especificamos como segundo parâmetro o nome da base, que nesse caso é "becodeLoginBD".
+
+Para aprendermos a utilizar o comando _include_once_ do PHP, ao invés de colocarmos essas linhas na nossa classe de tratamento do cadastro, iremos salvar em um arquivo chamado _conexao.php_. Faremos isso para que sempre que for necessário uma conexão ao banco, bastará que chamemos essa linha.
+
+Como faremos acesso ao banco na hora de salvar os dados do usuário cadastrado, nosso código ficará assim:
+
+```php
+<?php
+
+//adição da conexão ao banco de dados
+include_once(conexao.php);
+
+//prevenir erro quando é nulo
+if(isset($_POST["nome"]) || isset($_POST["email"]) || isset($_POST["senha"])){ 
+
+        $nome = $_POST["nome"];
+        $email = $_POST["email"];
+        $senha = $_POST["senha"];
+
+        $query = "INSERT INTO usuarios (nome, email, senha) 
+            VALUES ('$nome', '$email', '$senha')";
+
+        $resultado = mysqli_query($conectar, $query) or die (mysqli_error());
+    }
+
+        else{
+
+            echo "<script>alert('Houve erros na hora de salvar os dados')</script>";
+            echo "<script type='text/javascript'>  window.location='signup.php'; </script>";
+
+        }
+```
+
+Depois de tudo isso, o que vai acontecer com o usuário? Se os dados forem salvos, pra onde ele será encaminhado?
+
+Quando os dados forem aceitos no banco de dados, o fluxo é que ele seja levado para a página de login. Para isso vamos usar o seguinte script de JS:
+
+```php
+echo "<script>alert('Dados salvos com sucesso!')</script>";
+echo "<script type='text/javascript'>  window.location='login.php'; </script>";
+
+```
+
+Como já vimos no caso em que os dados não são aceitos no banco, a primeira linha apenas exibe uma mensagem, enquanto a segunda encaminha a pessoa para a tela de login, que consiste em um formulário com campo de e-mail e senha.
+
+Veja abaixo as imagens mostrando o funcionamento do sistema:
+
+![](img/cadastrando.png "Criando o cadastro no sistema")
+Figura 5 - Criando o cadastro no sistema
+
+![](img/dadossalvos.png "Dados salvos com sucess")
+Figura 6 - Dados foram salvos com sucesso
+
+![](img/encaminhamentoLogin.png "Encaminhamento para o login")
+Figura 7 - Encaminhamento para a tela de login
+
+![](img/checagemBD.png "Comprovando dados salvos")
+Figura 8 - Comprovando que os dados foram salvos no BD
+
+Vamos ver se como testar o funcionamento do login?
+
+## Criando a estrutura de login
+
+Agora que você já viu como salvar dados no banco e encaminhar para páginas específicas, fazer essa parte será fácil. Tudo o que precisaremos fazer será:
+
+* Validar os dados de login no banco de dados
+* Se esses dados forem encontrados, mostrar uma página de bem-vindo
+* Se o usuário não estiver no banco, informar isso na tela
+
+Vamos colocar a mão na massa?
+
+### Criando um formulário de login
+
+Nosso formulário de login será feito da seguinte forma:
+
+```html
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sistema de Login</title>
+</head>
+<body>
+
+    <div class="container">
+
+        <form method="POST" action="valida_login.php">
+            <h2>Área de Login</h2>
+            <label for="inputEmail">Endereço de e-mail</label>
+            <input type="email" id="inputEmail" name="usuario" placeholder="Endereço de email"><br>
+            
+            <label for="inputPassword" >Palavra-passe</label>
+            <input type="password" name="senha" id="inputPassword" placeholder="Palavra-passe" required><br><br>
+            
+
+            <button type="submit">Entrar</button>
+
+        </form>
+
+
+    </div> <!-- /container -->
+
+
+</body>
+</html>
+
+```
+
+Assim como no caso da criação de conta do usuário, iremos usar a _action_ valida_login.php para saber se nosso usuário está no banco de dados. Para isso esse arquivo deve conter o seguinte código:
+
+```php
+<?php
+
+session_start();
+
+$emailt = $_POST['email'];
+$senhat = $_POST['senha'];
+
+
+$conectar = mysqli_connect("127.0.0.1","root","") or die ("Erro na conexão");
+mysqli_select_db($conectar, 'becodeLoginBD');
+
+$sql = "SELECT * FROM usuarios WHERE email='$emailt' AND senha='$senhat' LIMIT 1";
+$result = mysqli_query($conectar, $sql);
+```
+
+Bora entender esse código linha a linha:
+
+Aquele _session_start()_ é um recurso que colocaremos em todas as páginas PHP. Ele será o responsável por avisar ao sistema que a sessão do usuário estará operante. É dentro da sessão que levaremos a senha, login e outras informações vinculadas àquele usuário, entendeu?
+
+Nas linhas seguintes, recebemos a senha e email do usuário e armazenamos em uma variável local para cada. Fazemos isso para poder manipular localmente as variáveis recebidas.
+
+Essas variáveis são usadas no momento em que passamos o comando SQL para procurar o login no banco de dados. Observe que fizemos a procura de uma forma diferente, declarando os comandos SQL em uma variável, e apenas chamando ela no _$result_. Fizemos apenas para mostrar uma forma diferente de fazer a mesma pesquisa, além de ser melhor na hora de fazer alterações nas queries.
+
+Em último lugar, fizemos a conexão ao banco sem chamar o aquivo _conexao.php_. Isso mostra que é possível fazer localmente o acesso ao banco, o que pode ser interessante caso você tenha um banco ou tabela apenas para logins. Mas é recomendado evitar essa prática, para deixar o código melhor isolado, com cada função no seu lugar.
+
+Abaixo temos as linhas finais dessa classe, que tratam do que fazer na hora de analisar o que foi recebido do banco de dados.
+
+```php
+
+$numeroLinhas=mysqli_num_rows($result);
+
+if($numeroLinhas == 0) { 
+    
+    //die(mysqli_error($conectar));
+
+    //Mensagem de erro
+    echo "<script>alert('Usuário ou senha inválidos')</script>";
+
+    //redirecionamento para login
+    echo "<script type='text/javascript'>  window.location='login.php'; </script>";
+
+}
+
+else{
+
+    $resultado = mysqli_fetch_assoc($result);
+
+    //variáveis globais que recebem os dados do usuário
+    $_SESSION['email'] = $resultado['email'];
+
+
+    //redirecionamento para login
+    echo "<script type='text/javascript'>  window.location='bemvindo.php'; </script>";
+    echo "teste";
+
+}
+
+
+mysqli_close($conectar);
+
+
+?>
+
+```
+
+A variável _$numeroLinhas_ serve para que possamos saber quantos resultados foram encontrados no banco de dados. Se não foi encontrado nenhum registro com esses dados, logo teremos como resultado um zero em _mysqli_num_rows($result)_. Se isso acontecer, mostramos um erro na tela e direcionamos o usuário para a tela de login inicialmente. 
+
+Se ele encontrar uma linha, o que teremos de fazer é direcionar nosso usuário para a página _home.php_. Além disso, fizemos algo para você aprender mais um recurso de PHP, que é a quebra dos resultados que vieram do banco.
+
+Quando você faz uma pesquisa no banco de dados usando _mysqli_query_ você recebe uma espécie de _array_ com todas os resultados encontrados. Dessa forma, se você quiser fazer um _parse_ nesses dados, ou seja, acessa-los um de cada vez, você pode usar o metódo _mysqli_fetch_assoc_.
+
+Com ele, você passa como parâmetro o que veio do banco, e dessa forma é possível acessar todos os campos recebidos. No exemplo acima nós salvamos o email encontrado no banco em uma varíavel da sessão ($_SESSION). Sendo assim, sempre que chamarmos a variável $_SESSION['email'] no sistema nós teremos o email da pessoa logada naquele momento. 
+
+Quer ver um exemplo? Vamos ver na página _home.php_:
+
+```php
+<?php session_start(); ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bem-vindo!</title>
+</head>
+<body>
+
+    <h1> <?php echo "Bem-vindo, ".$_SESSION['email']; ?>! </h1>
+
+</body>
+</html>
+
+```
+
+Para concatenarmos uma variável com textos em _echo_, precisamos usar um ponto para isso, conforme o exemplo acima. Bora testar no site pra ver se isso está funcionando?
+
+![Dados errados](img/dadosErrados.png "Resultado com dados errados")
+Figura 9 - Resultado com os dados errados
+
+![Nova Tentativa](img/novaTentativa.png "Reencaminhamento para nova tentativa")
+Figura 10 - Reencaminhamento para nova tentativa
+
+![Login com sucesso](img/dadosCorretos.png "Resultado após login com sucesso")
+Figura 11 - Resultado após login com sucesso
+
+## Cadê o CSS e JavaScript?
+
+Como você percebeu, fizemos as páginas mas não incluímos nada nelas. Mas isso tem um motivo: queremos ver você sendo o protagonista e criando esse conteúdo! Para isso temos algumas dicas que podem ser úteis.
+
+O primeiro é que pesquise pelo Bootstrap. Ele é um framework que permite criar belos sites, padronizados para computadores e telas menores. Pra isso ele utiliza uma biblioteca própria de comandos em JavaScript e CSS, bastante você chamar as classes corretas para dar cor e ritmo ao seu site.
+
+A segunda dica que damos é de ler nosso [ebook sobre HTML e CSS](http://materiais.becode.com.br/ebook-guia-html-e-css-lp), que vai te ensinar como entender melhor destas linguagens, e depois [fazer o quiz de HTML, CSS e JS](http://materiais.becode.com.br/teste-html-css-e-javascript) pra entender se você já está dominando essas linguagens. 
+
+Se você sentir dificuldades, temos [este curso](https://becode.com.br/curso/html5-css3-e-javascript/) que pode te ajudar a aprender tudo sobre como fazer um site responsivo, elegante e funcional.
+
+
+
+
